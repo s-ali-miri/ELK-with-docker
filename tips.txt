@@ -27,7 +27,7 @@ ssl:
 #        condition: service_healthy
 #    image: docker.elastic.co/logstash/logstash:${STACK_VERSION}
 #    restart: unless-stopped
-#    mem_limit: ${LS_MEM_LIMIT} # you can add this variable to .env or configure it manualy here
+#    mem_limit: ${LS_MEM_LIMIT} # you can add this variable to .env or configure it manually here
 #    labels:
 #      co.elastic.logs/module: logstash
 #    user: root
@@ -54,5 +54,6 @@ ssl:
 14- docker run -it -p 8080:8080 docker.elastic.co/package-registry/distribution:8.19.3 (or add it in docker compose)
 15- add this line under kibana, in environment section in docker-compose.yml:
       - XPACK_FLEET_REGISTRYURL="http://IP or hostname:8080"
+
 
 
