@@ -17,13 +17,42 @@ ssl:
 	CERT
       -----END CERTIFICATE-----
 
-9- configure logstash to receive logs (different config is needed very time)
+# if you need to collect logs from CUSTOM APP (you can find integration for most of famous apps, i.e fortinet, aws, etc.)
+9.1- add this to docker-compose.yml (without #)
+#  logstash01:
+#    depends_on:
+#      es01:
+#        condition: service_healthy
+#      kibana:
+#        condition: service_healthy
+#    image: docker.elastic.co/logstash/logstash:${STACK_VERSION}
+#    restart: unless-stopped
+#    mem_limit: ${LS_MEM_LIMIT} # you can add this variable to .env or configure it manualy here
+#    labels:
+#      co.elastic.logs/module: logstash
+#    user: root
+#    ports:
+#      - "517:517/udp" # or any other port
+#    volumes:
+#      - ./certs:/usr/share/logstash/certs
+#      - logstashdata01:/usr/share/logstash/data
+#      - "./logstash_ingest_data/:/usr/share/logstash/ingest_data/"
+#      - "./logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro"
+#    environment:
+#      - xpack.monitoring.enabled=false
+#      - ELASTIC_USER=elastic
+#      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+#      - ELASTIC_HOSTS=https://IP:9200
+
+9.2- then you need to define grok pattern for your logs(https://edgedelta.com/company/blog/what-are-grok-patterns)
+
+# if your network is air-gapped and you need to have local package-registry
 10- docker pull docker.elastic.co/package-registry/distribution:8.19.3
 11- docker save -o package-registry-8.19.3.tar docker.elastic.co/package-registry/distribution:8.19.3
 12- move the package-registry-8.19.3.tar to ELK server
 13- docker load -i package-registry-8.19.3.tar (on the ELK server)
 14- docker run -it -p 8080:8080 docker.elastic.co/package-registry/distribution:8.19.3 (or add it in docker compose)
 15- add this line under kibana, in environment section in docker-compose.yml:
-
       - XPACK_FLEET_REGISTRYURL="http://IP or hostname:8080"
+
 
