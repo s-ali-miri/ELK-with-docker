@@ -4,8 +4,8 @@
 3.1- go to docker-compose.yml, in setup container, add your IP or domain_name in the instances.yml which is created in the setup container
 4- docker compose up -d
 4.1- if kibana did not become healthy and you in the logs you see can not authenticate kibana_system, go into es01 container and reset the password for kibana_system (/usr/share/elasticsearch/bin/elasticsearch-reset-password -i -u kibana_system --url https://es01:9200)
-5- go to https://192.168.151.149 and elastic is ready! (not completely :D)
-6- go to Fleet>Setting>edit output and change the "http://localhost:9200" to "https://192.168.151.149:9200"
+5- go to https://IP and elastic is ready! (not completely :D)
+6- go to Fleet>Setting>edit output and change the "http://localhost:9200" to "https://IP:9200"
 7- use this command (in the linux terminal) to get finger print of ca.crt
 openssl x509 -fingerprint -sha256 -noout -in /path/to/ca.crt | awk -F"=" {' print $2 '} | sed s/://g
 then copy paste the result into "Elasticsearch CA trusted fingerprint (optional)" in Kibana
@@ -26,3 +26,4 @@ ssl:
 15- add this line under kibana, in environment section in docker-compose.yml:
 
       - XPACK_FLEET_REGISTRYURL="http://IP or hostname:8080"
+
