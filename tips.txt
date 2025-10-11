@@ -24,4 +24,5 @@ ssl:
 13- docker load -i package-registry-8.19.3.tar (on the ELK server)
 14- docker run -it -p 8080:8080 docker.elastic.co/package-registry/distribution:8.19.3 (or add it in docker compose)
 15- add this line under kibana, in environment section in docker-compose.yml:
+
       - XPACK_FLEET_REGISTRYURL="http://IP or hostname:8080"
